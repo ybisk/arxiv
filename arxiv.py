@@ -1,3 +1,4 @@
+import os
 import sys
 import subprocess
 import urllib.request
@@ -32,7 +33,8 @@ for identifier in identifiers:
   subprocess.call("wget --user-agent=Lynx https://arxiv.org/pdf/" + identifier + ".pdf", shell=True)
   citekey = authors[0].split()[-1] + ":" + year
   if conference is None:
-    out.write("@unpublished{" + citekey + ",\n")
+    out.write("@article{" + citekey + ",\n")
+    out.write("\tjournal = {arXiv:" + identifier + "},\n")
   else:
     out.write("@inproceedings{" + citekey + ",\n")
     out.write("\tBooktitle = {" + conference + "},\n")
@@ -43,3 +45,5 @@ for identifier in identifiers:
   out.write("\tMonth = {" + month + "},\n")
   out.write("}\n\n")
 out.close()
+
+os.system("open .")
